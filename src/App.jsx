@@ -1,8 +1,17 @@
+import { useEffect, useMemo, useState } from "react";
+// styles
 import "./App.css";
+// components
+import Timer from "./components/Timer";
+import Trivia from "./components/Trivia";
+import User from "./components/User";
 
 
 function App() {
-
+  const [questionNumber, setQuestionNumber] = useState(1)
+  const [user, setUser] = useState();
+  const [timeOut, setTimeOut] = useState(false);
+  const [earned, setEarned] = useState('$ 0');
   const data = [
     {
       id: 1,
@@ -10,7 +19,7 @@ function App() {
       answers: [
         {
           text: "Phone",
-          correct: false,
+          correct: '$ 0',
         },
         {
           text: "Watches",
@@ -94,9 +103,59 @@ function App() {
     []
   );
 
+  useEffect(() => {
+    questionNumber > 1 &&
+      setEarned(moneyPyramid.find((m) => m.id === questionNumber - 1).amount);
+  }, [questionNumber, moneyPyramid]);
+
   return (
     <div className="app">
-    </div>
+      {!user ? <User setUser={setUser} /> : (
+        <>
+          <div className="main">
+            {
+              timeOut ? <h1 className="endText">You Earned : {earned}</h1> :
+                (<>
+                  <div className="top">
+                    <div className="timer">
+                      <Timer
+                        setTimeOut={setTimeOut}
+                        questionNumber={questionNumber}
+                      />
+                    </div>
+                  </div>
+                  <div className="bottom">
+                    <Trivia
+                      data={data}
+                      questionNumber={questionNumber}
+                      setQuestionNumber={setQuestionNumber}
+                      setTimeOut={setTimeOut}
+                    />
+                  </div>
+                </>
+                )
+            }
+          </div>
+          <div className="pyramid">
+            <ul className="moneyList">
+              {moneyPyramid.map((m, index) => (
+                <li
+                  className={
+                    questionNumber === m.id
+                      ? "moneyListItem active"
+                      : "moneyListItem"
+                  }
+                  key={index}
+                >
+                  <span className="moneyListItemNumber">{m.id}</span>
+                  <span className="moneyListItemAmount">{m.amount}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+    </div >
   );
 }
 

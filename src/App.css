@@ -8,7 +8,7 @@
 .main {
   width: 75%;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #020230),
-    url("https://i.ytimg.com/vi/yQbJRGs0fy8/maxresdefault.jpg") center;
+    url("./assets//bg.jpg") center;
   display: flex;
   flex-direction: column;
 }
@@ -203,4 +203,21 @@
   cursor: pointer;
   font-size: 18px;
   font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .pyramid{
+    width: 30%;
+  }
+  .moneyListItemAmount {
+    font-size: 15px;
+  }
+  .moneyListItemNumber {
+    font-size: 15px;
+  }
+}
+@media (max-width: 400px) {
+  .moneyListItemAmount {
+    font-size: 12px;
+  }
 }
